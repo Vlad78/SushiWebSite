@@ -1,0 +1,37 @@
+.bonus-container {
+  display: block;
+
+  width: 75px;
+
+  .button {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 7px 9px;
+    border-radius: 14px;
+    margin: 0px auto;
+    width: fit-content;
+    max-width: 75px;
+    min-width: 55px;
+    background: rgb(167, 44, 167);
+    background: linear-gradient(90deg, rgba(167, 44, 167, 1) 0%, rgba(133, 40, 190, 1) 100%);
+    cursor: pointer;
+
+    .tally {
+      height: 1rem;
+      display: flex;
+      color: white;
+      margin-right: 3px;
+      align-items: center;
+      letter-spacing: -0.7px;
+    }
+
+    .img {
+      background: url(/coin.png) no-repeat center center;
+      background-size: cover;
+      width: 0.9rem;
+      height: 1.1rem;
+    }
+  }
+}
