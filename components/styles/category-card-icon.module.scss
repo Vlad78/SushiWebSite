@@ -1,0 +1,36 @@
+@use "@/app/variables.module.scss";
+
+.category-content-icon {
+  grid-row: span 2;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.2rem 0.7rem;
+  background-color: #e6e6e9;
+  box-shadow: variables.$shadow;
+  border-radius: 35px;
+  overflow: hidden;
+
+  .category-content-icon-container {
+    display: contents;
+
+    & img {
+      object-fit: cover;
+      border-radius: 20px;
+    }
+  }
+
+  .categoty-content-icon-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: -0.5px;
+    transform: translate(5%, 5%) scaleX(1.15);
+    margin-right: 4px;
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}

@@ -1,9 +1,30 @@
 import { Category, ResponseWrapper } from "@/types";
+import qs from "qs";
 
-const URL = `${process.env.NEXT_PUBLIC_API_URL}/categories`;
+interface Query {
+  isFeatured?: boolean;
+}
 
-const getCategories = async (): Promise<ResponseWrapper<Category>> => {
-  const res = await fetch(URL);
+const URL = `${process.env.NEXT_PUBLIC_API_URL}/categories?`;
+
+const getCategories = async (query: Query): Promise<ResponseWrapper<Category>> => {
+  const url =
+    URL +
+    qs.stringify(
+      {
+        sort: ["order"],
+        populate: "*",
+        filters: {
+          isFeatured: query.isFeatured,
+        },
+      },
+      {
+        encodeValuesOnly: true,
+      }
+    );
+
+  const res = await fetch(url);
+  // const res = query === undefined ? await fetch(URL+query) : await fetch(URL+defaultQuery)
   return res.json();
 };
 

@@ -1,0 +1,56 @@
+.navigation {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  height: 75px;
+  background-color: rgba(245, 245, 245, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  ul {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  li:first-child {
+    margin-left: 10px;
+  }
+
+  li:last-child {
+    margin-right: 20px;
+  }
+
+  img {
+    margin: 0 auto;
+  }
+
+  p {
+    text-align: center;
+    font-weight: 500;
+    line-height: 1.1;
+    transform: scaleY(0.94);
+  }
+}
+
+.logo {
+}
+
+.menu {
+}
+
+.cart {
+}
+
+.contacts {
+}
+
+.profile {
+}

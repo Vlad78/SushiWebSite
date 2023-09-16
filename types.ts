@@ -7,46 +7,99 @@ interface Pagination {
 
 export interface ResponseWrapper<T> {
   data: T[];
-  meta: { pagination: Pagination };
+  meta?: { pagination: Pagination };
 }
 
 export interface Product {
   id: string;
-  category: Category;
+  attributes: {
+    title: string;
+    descShort: string;
+    descLong: string;
+    price: number;
+    discount_price: number;
+    discount_start_date: string;
+    discount_end_date: string;
+    isFeatured: boolean;
+    categories: Categories;
+    img: Images;
+    url: string;
+    name: string;
+  };
+}
+
+interface ProviderMetadata {
+  public_id: string;
+  resource_type: string;
+}
+
+interface ImageProps {
+  ext: string;
+  url: string;
+  hash: string;
+  mime: string;
   name: string;
-  price: string;
-  isFeatured: boolean;
-  size: Size;
-  color: Color;
-  images: Image[];
+  path?: any;
+  size: number;
+  width: number;
+  height: number;
+  provider_metadata: ProviderMetadata;
 }
 
 export interface Image {
-  id: string;
-  url: string;
+  id: number;
+  attributes: {
+    name: string;
+    alternativeText: string;
+    caption?: any;
+    width: number;
+    height: number;
+    formats: {
+      small: ImageProps;
+      medium: ImageProps;
+      thumbnail: ImageProps;
+    };
+    hash: string;
+    ext: string;
+    mime: string;
+    size: number;
+    url: string;
+    previewUrl: string;
+    provider: string;
+    provider_metadata: ProviderMetadata;
+  };
+}
+
+export interface Images {
+  data: Image[];
 }
 
 export interface Story {
   id: string;
-  label: string;
-  imageUrl: string;
+  attributes: {
+    title: string;
+    startAt: string;
+    endAt: string;
+    isFired: boolean;
+    img: Images;
+    isFeatured: boolean;
+  };
 }
 
 export interface Category {
   id: string;
-  attributes: { name: string; description: string; title: string };
-  name: string;
-  billboard: Story;
+  attributes: {
+    name: string;
+    description: string;
+    title: string;
+    order: number;
+    img: Images;
+    icon: Images;
+    url: string;
+    isFeatured: boolean;
+  };
 }
 
-export interface Size {
-  id: string;
-  name: string;
-  value: string;
-}
-
-export interface Color {
-  id: string;
-  name: string;
-  value: string;
+export interface Categories {
+  data: Category[];
 }

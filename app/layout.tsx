@@ -2,7 +2,8 @@ import { Inter } from "next/font/google";
 
 import ModalProvider from "@/providers/modal-provider";
 import ToastProvider from "@/providers/toast-provider";
-import Navbar from "@/components/navbar";
+import Header from "@/components/header";
+import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 
 import "./globals.css";
@@ -20,8 +21,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={font.className}>
         <ToastProvider />
         <ModalProvider />
-        <Navbar />
+        <Header />
         {children}
+        <Navigation />
         <Footer />
       </body>
     </html>

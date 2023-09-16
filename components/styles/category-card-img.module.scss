@@ -1,0 +1,30 @@
+@use "@/app/variables.module.scss";
+
+.category-content-img {
+  grid-row: span 6;
+  display: flex;
+  position: relative;
+  box-shadow: variables.$shadow;
+  border-radius: 35px;
+  overflow: hidden;
+
+  .category-content-img-container {
+    display: contents;
+
+    & img {
+      object-fit: cover;
+    }
+  }
+
+  .categoty-content-img-title {
+    position: absolute;
+    top: 5%;
+    left: 10%;
+    right: 10%;
+    transform: scaleX(1.2);
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: -0.5px;
+  }
+}

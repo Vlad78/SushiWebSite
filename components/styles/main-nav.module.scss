@@ -1,0 +1,44 @@
+.main-nav-container {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.main-nav-button {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 0.2rem 0.7rem;
+  border-radius: 24px;
+  white-space: nowrap;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
+.main-nav-img {
+  width: auto;
+}
+
+.main-nav-mask {
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    rgba(0, 0, 0, 0.25) 9px,
+    #000 18px,
+    #000 calc(100% - 18px),
+    rgba(0, 0, 0, 0.25) calc(100% - 9px),
+    transparent
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    rgba(0, 0, 0, 0.25) 9px,
+    #000 18px,
+    #000 calc(100% - 18px),
+    rgba(0, 0, 0, 0.25) calc(100% - 9px),
+    transparent
+  );
+}

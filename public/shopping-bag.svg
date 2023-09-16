@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 800 800" style="enable-background:new 0 0 800 800;" xml:space="preserve">
+<style type="text/css">
+	.st0{display:none;}
+	.st1{display:inline;}
+	.st2{fill:#FFFFFF;stroke:#FFFFFF;stroke-width:20;stroke-miterlimit:10;}
+</style>
+<g id="Layer_2" class="st0">
+	<rect y="0" class="st1" width="800" height="800"/>
+</g>
+<g id="Capa_1">
+	<g>
+		<path class="st2" d="M711,685.5l-44.8-504.9c-0.8-10-9.2-17.6-19.3-17.6h-94.4C552.3,79.1,484,10.8,400,10.8S247.7,79.1,247.6,163
+			h-94.4c-10,0-18.4,7.6-19.3,17.6L89,685.5c0,0.6,0,1.1,0,1.8c0,56.2,51.7,102,115.2,102h391.6c63.5,0,115.2-45.8,115.2-102
+			C711,686.6,711,686.1,711,685.5z M400,49.4c62.7,0,113.6,50.9,113.8,113.6H286.2C286.4,100.4,337.3,49.4,400,49.4z M595.8,750.4
+			H204.2c-41.9,0-76.1-27.9-76.5-62.5l43.2-486.2h76.7v67.8c0,10.6,8.7,19.3,19.3,19.3s19.3-8.7,19.3-19.3v-67.8h227.5v67.8
+			c0,10.6,8.7,19.3,19.3,19.3s19.3-8.7,19.3-19.3v-67.8h76.7L672.3,688C671.8,722.5,637.7,750.4,595.8,750.4z"/>
+	</g>
+</g>
+</svg>
