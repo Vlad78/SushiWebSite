@@ -5,8 +5,9 @@ import ProductList from "@/components/product-list";
 import Stories from "@/components/stories";
 import Container from "@/components/ui/container";
 import MainNav from "../../components/main-nav";
-import style from "./page.module.scss";
 import MasonryMain from "../../components/masonry-main";
+
+import style from "./page.module.scss";
 
 export const revalidate = 0;
 
@@ -23,6 +24,7 @@ const HomePage = async () => {
 
       {/* <MainNav data={categories} /> */}
       <div className={`${style["paralax-container"]} ${style["items-field"]} pb-10`}>
+        <div className={style.knob}></div>
         <h2>Polecane produkty</h2>
         <MasonryMain categories={categories} products={products} stories={stories} />
       </div>

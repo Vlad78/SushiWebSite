@@ -1,3 +1,5 @@
+@import "@/app/variables.module.scss";
+
 .navigation {
   position: fixed;
   display: flex;
@@ -10,6 +12,7 @@
   left: 0;
   right: 0;
   bottom: 0;
+  overflow: hidden;
 
   ul {
     display: flex;
@@ -41,12 +44,29 @@
 }
 
 .logo {
+  img {
+    object-fit: cover;
+  }
 }
 
 .menu {
 }
 
 .cart {
+  position: relative;
+
+  span {
+    position: absolute;
+    background-color: #d24c2b;
+    color: #fff;
+    border-radius: 10px;
+    top: 2px;
+    right: -11px;
+    line-height: 1.4;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+  }
 }
 
 .contacts {

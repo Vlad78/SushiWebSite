@@ -1,19 +1,19 @@
 import React from "react";
-import styles from "./styles/masonry-main.module.scss";
 import { Category, Product, Story } from "../types";
-
 import defaultIcon from "@/public/sushi.png";
 import { getRandom1to10 } from "../lib/utils";
 import CategoryCardImg from "./category-card-img";
 import CategoryCardIcon from "./category-card-icon";
 import ProductCard from "./product-card";
 
+import styles from "./styles/masonry-main.module.scss";
+
 const MasonryMain: React.FC<{ categories: Category[]; products: Product[]; stories: Story[] }> = ({
   categories,
   products,
   stories,
 }) => {
-  // picking data from API
+  // cherry-picking data
   const categoryRevised = categories.map((e) => {
     let data = {};
     if (e.attributes.img.data) {
@@ -36,6 +36,7 @@ const MasonryMain: React.FC<{ categories: Category[]; products: Product[]; stori
       containerHeight: 50,
       containerWidth: 150,
       type: "icon",
+
       ...data,
     };
   });
@@ -50,6 +51,7 @@ const MasonryMain: React.FC<{ categories: Category[]; products: Product[]; stori
   const productsRevised = products.map((e) => {
     return {
       order: getRandom1to10(),
+
       id: e.id,
       url: e.attributes.url,
       img:
@@ -63,6 +65,7 @@ const MasonryMain: React.FC<{ categories: Category[]; products: Product[]; stori
       containerHeight: 185,
       containerWidth: 145,
       type: "product",
+      originalObject: e,
     };
   });
 

@@ -1,7 +1,11 @@
-import React from "react";
+"use client";
+
+import React, { MouseEventHandler } from "react";
 import styles from "./styles/product-card.module.scss";
 import Image from "next/image";
 import { addDecimal } from "../lib/utils";
+import useCart from "../hooks/use-cart";
+import { Product } from "../types";
 
 const ProductCard: React.FC<{
   order: number;
@@ -15,7 +19,14 @@ const ProductCard: React.FC<{
   containerHeight: number;
   containerWidth: number;
   type: string;
+  originalObject: Product;
 }> = (e) => {
+  const cart = useCart();
+
+  const addClickHandler = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.stopPropagation();
+    cart.addItem(e.originalObject);
+  };
   return (
     <div
       className={styles[`product-content`]}
@@ -43,7 +54,7 @@ const ProductCard: React.FC<{
           </div>
         </div>
         <div className={styles["product-content-cart"]}>
-          <div className={styles["product-content-cart-img"]}></div>
+          <button className={styles["product-content-cart-img"]} onClick={addClickHandler}></button>
         </div>
       </div>
     </div>

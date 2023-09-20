@@ -18,6 +18,7 @@ export interface Product {
     descLong: string;
     price: number;
     discount_price: number;
+    discount_value: number;
     discount_start_date: string;
     discount_end_date: string;
     isFeatured: boolean;
