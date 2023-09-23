@@ -1,0 +1,145 @@
+.delivery-container {
+  background-color: rgba(254, 229, 76, 0.5);
+  display: flex;
+  flex-direction: column;
+  border-radius: 2.5rem;
+  margin: 2rem 1rem;
+}
+
+.delivery-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  .courier {
+    grid-column: span 1;
+    margin-left: 2rem;
+    color: rgb(84 84 84);
+    cursor: pointer;
+    span {
+      display: block;
+      max-width: fit-content;
+    }
+  }
+
+  .pickup {
+    grid-column: span 1;
+    color: rgb(84 84 84);
+    cursor: pointer;
+    span {
+      display: block;
+      max-width: fit-content;
+    }
+  }
+
+  .isActive {
+    color: black;
+    font-weight: 500;
+  }
+
+  .line {
+    grid-column: span 2;
+    height: 3px;
+    width: 100%;
+    background-color: rgb(130 130 130 / 40%);
+  }
+
+  .underscore {
+    height: 3px;
+    background-color: rgba(254, 76, 76, 0.5);
+    transition: 0.3s ease-in-out;
+  }
+}
+
+.delivery-main {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  padding: 1.3rem;
+
+  .delivery-adress {
+    grid-column: span 2;
+  }
+
+  .adress {
+    font-size: 1.1rem;
+    line-height: 1.2;
+    font-weight: 900;
+    margin-top: 5px;
+    grid-column: span 1;
+  }
+
+  .arrow {
+    grid-column: 2 / span 1;
+  }
+  .arrow-icon {
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+  }
+
+  .delivery-price {
+    grid-column: span 1;
+    margin-top: 2rem;
+  }
+
+  .price {
+    grid-column: 2 / span 1;
+    margin-top: 2rem;
+  }
+
+  .remain-money {
+    grid-column: span 1;
+    font-style: italic;
+    color: rgb(84 84 84);
+  }
+
+  .money {
+    grid-column: 2 / span 1;
+    font-style: italic;
+    color: rgb(84 84 84);
+  }
+}
+
+.pickup-main {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  padding: 1.3rem;
+
+  .pickup-adress {
+    grid-column: span 2;
+  }
+
+  .pickup-combobox {
+    grid-column: span 1;
+  }
+
+  .pickup-see-on-map {
+    grid-column: 1;
+    margin-top: 1rem;
+
+    button {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 0.6rem 1rem 0.6rem 0.6rem;
+      border: 1px solid;
+      border-radius: 25px;
+    }
+
+    span {
+      padding-left: 1rem;
+      line-height: 1;
+      text-align: center;
+      transform: translateY(-1px);
+    }
+  }
+
+  .pickup-discount {
+    grid-column: 1 / span 1;
+    margin-top: 2rem;
+  }
+
+  .pickup-discount-amount {
+    grid-column: 2 / span 1;
+    margin-top: 2rem;
+  }
+}

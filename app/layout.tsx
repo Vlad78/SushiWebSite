@@ -23,8 +23,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ModalProvider />
         <Header />
         {children}
-        <Navigation />
         <Footer />
+        <Navigation />
       </body>
     </html>
   );

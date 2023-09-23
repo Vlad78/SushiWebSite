@@ -1,0 +1,8 @@
+.button {
+  border: 1px solid;
+  background-color: rgba(255, 255, 255, 0);
+
+  &:hover {
+    box-shadow: rgb(0 0 0 / 50%) 0px 1px 2px 0px;
+  }
+}

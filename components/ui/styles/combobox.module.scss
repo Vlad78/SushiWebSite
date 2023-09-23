@@ -1,0 +1,66 @@
+.combobox-container {
+  position: relative;
+  z-index: 2;
+
+  .input {
+    position: relative;
+    width: 100%;
+
+    input {
+      width: 100%;
+      background-color: inherit;
+      padding: 0.5rem 0.5rem 0.5rem 0;
+      border-style: none;
+      font-size: 1.1rem;
+      line-height: 1.2;
+      font-weight: 900;
+      border-bottom: 2px solid;
+    }
+
+    button {
+      position: absolute;
+      display: flex;
+      padding: 0.5rem;
+      align-items: center;
+      right: -40px;
+      top: 0px;
+      bottom: 0px;
+      background-color: transparent;
+      box-shadow: none;
+      border: none;
+    }
+  }
+
+  .options-list {
+    position: absolute;
+    line-height: 1.2;
+    margin-top: 0.25rem;
+    width: 100%;
+    max-height: 15rem;
+    background-color: rgba(255, 255, 255, 0.8196078431);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    overflow: auto;
+    border-radius: 16px;
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+
+    li {
+      position: relative;
+      cursor: pointer;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+      padding: 0.5rem 1rem;
+    }
+
+    .active {
+      background-color: rgba(13, 148, 137, 0.055);
+    }
+
+    .selected {
+      background-color: rgba(13, 148, 136, 90%);
+      font-weight: 700;
+      color: rgb(255 255 255);
+    }
+  }
+}

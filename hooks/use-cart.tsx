@@ -55,12 +55,13 @@ const useCart = create(
             if (!existingItem) return;
 
             if (existingItem.quantity <= 1) {
-              set({
-                items: [...get().items.filter((item) => item.product.id !== data.id)],
-                totalItems: --get().totalItems,
-                totalPrice:
-                  get().totalPrice - data.attributes.price + data.attributes.discount_value,
-              });
+              // set({
+              //   items: [...get().items.filter((item) => item.product.id !== data.id)],
+              //   totalItems: --get().totalItems,
+              //   totalPrice:
+              //     get().totalPrice - data.attributes.price + data.attributes.discount_value,
+              // });
+              return;
             }
             if (existingItem.quantity > 1) {
               --existingItem.quantity;
@@ -80,8 +81,9 @@ const useCart = create(
             get().validateTotalPrice();
           },
 
-          removeAll: () => set({ items: [], totalItems: 0 }),
+          removeAll: () => set({ items: [], totalItems: 0, totalPrice: 0 }),
 
+          // TODO get prices from server
           validateTotalPrice: () => {
             const totalPrice = get().items.reduce<number>((prev, e) => {
               if (e.product.attributes.discount_price) {

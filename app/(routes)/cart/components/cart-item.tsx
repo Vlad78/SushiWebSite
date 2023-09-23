@@ -1,56 +1,70 @@
 import Image from "next/image";
-import { toast } from "react-hot-toast";
-import { X } from "lucide-react";
+import { X, Minus, Plus } from "lucide-react";
 
 import IconButton from "@/components/ui/icon-button";
-import Currency from "@/components/ui/currency";
+// import Currency from "@/components/ui/currency";
 import useCart from "@/hooks/use-cart";
 import { Product } from "@/types";
-
+import { to1Decimal } from "@/lib/utils";
+import style from "./styles/cart-item.module.scss";
 
 interface CartItemProps {
-  data: Product;
+  data: {
+    product: Product;
+    quantity: number;
+  };
 }
 
-const CartItem: React.FC<CartItemProps> = ({
-  data
-}) => {
+const CartItem: React.FC<CartItemProps> = ({ data }) => {
   const cart = useCart();
 
   const onRemove = () => {
-    cart.removeItem(data.id);
+    cart.removeItem(data.product.id);
   };
 
-  return ( 
+  const onSubtract = () => {
+    cart.subtractItem(data.product);
+  };
+
+  const onAdd = () => {
+    cart.addItem(data.product);
+  };
+
+  return (
     <li className="flex py-6 border-b">
       <div className="relative h-24 w-24 rounded-md overflow-hidden sm:h-48 sm:w-48">
         <Image
           fill
-          src={data.images[0].url}
-          alt=""
+          src={data.product.attributes.img.data[0].attributes.url}
+          alt={data.product.attributes.title}
           className="object-cover object-center"
         />
       </div>
+
       <div className="relative ml-4 flex flex-1 flex-col justify-between sm:ml-6">
-        <div className="absolute z-10 right-0 top-0">
-          <IconButton onClick={onRemove} icon={<X size={15} />} />
+        <div className={style["remove-button"]}>
+          <IconButton onClick={onRemove} icon={<X size={15} />} className={style["x-icon"]} />
         </div>
-        <div className="relative pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
-          <div className="flex justify-between">
-            <p className=" text-lg font-semibold text-black">
-              {data.name}
-            </p>
+        <div className={style["cart-item-middle-column"]}>
+          <div className={style.title}>
+            <p className=" text-lg font-semibold text-black">{data.product.attributes.title}</p>
           </div>
 
-          <div className="mt-1 flex text-sm">
-            <p className="text-gray-500">{data.color.name}</p>
-            <p className="ml-4 border-l border-gray-200 pl-4 text-gray-500">{data.size.name}</p>
+          <div className={style.options}>Опции товара</div>
+
+          <div className={style.price}>{`${to1Decimal(
+            data.product.attributes.price - data.product.attributes.discount_value
+          )} zl`}</div>
+
+          <div className={style.controls}>
+            <IconButton onClick={onSubtract} icon={<Minus size={15} />} />
+            <div className={style.quantity}>{data.quantity}</div>
+            <IconButton onClick={onAdd} icon={<Plus size={15} />} />
           </div>
-          <Currency value={data.price} />
         </div>
       </div>
     </li>
   );
-}
- 
+};
+
 export default CartItem;

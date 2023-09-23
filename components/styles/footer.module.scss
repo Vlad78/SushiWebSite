@@ -1,6 +1,8 @@
 .footer {
+  position: sticky;
   padding-bottom: 75px;
-  margin: 10px 15px;
+  margin: 10px 15px 0 15px;
   font-size: 0.75rem;
   line-height: 1rem;
+  top: calc(100% - 75px);
 }

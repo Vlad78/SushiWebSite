@@ -30,7 +30,7 @@ const Navigation = () => {
           <p>menu</p>
         </li>
         <li className={styles.cart}>
-          <CartIcon />
+          <CartIcon imgParams={imgParams} />
         </li>
         <li className={styles.contacts}>
           <Image src={contacts} alt="contacts" {...imgParams}></Image>

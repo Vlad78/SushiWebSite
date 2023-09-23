@@ -3,7 +3,7 @@
 import React, { MouseEventHandler } from "react";
 import styles from "./styles/product-card.module.scss";
 import Image from "next/image";
-import { addDecimal } from "../lib/utils";
+import { to1Decimal } from "../lib/utils";
 import useCart from "../hooks/use-cart";
 import { Product } from "../types";
 
@@ -46,11 +46,11 @@ const ProductCard: React.FC<{
             className={styles["product-content-oldPrice"]}
             style={!e.discountPrice ? { display: "none" } : {}}
           >
-            {addDecimal(e.price) + " zl"}
+            {to1Decimal(e.price) + " zl"}
             <div className={styles["product-content-oldPrice__dash"]}>————</div>
           </div>
           <div className={styles["product-content-mainPrice"]}>
-            {e.discountPrice ? addDecimal(e.discountPrice) + " zl" : addDecimal(e.price) + " zl"}
+            {e.discountPrice ? to1Decimal(e.discountPrice) + " zl" : to1Decimal(e.price) + " zl"}
           </div>
         </div>
         <div className={styles["product-content-cart"]}>

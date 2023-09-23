@@ -1,3 +1,4 @@
+import Footer from "../footer";
 import styles from "./styles/container.module.scss";
 
 interface ContainerProps {
