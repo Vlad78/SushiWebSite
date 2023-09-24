@@ -48,21 +48,21 @@ const Delivery = () => {
 
   // header animation
   const [isActive, setIsActive] = useState<"courier" | "pickup">("courier");
-  const [rect1, ref1] = useClientRect();
-  const [rect2, ref2] = useClientRect();
-  const [rect3, ref3] = useClientRect();
+  const [courierRect, courierBlockRef] = useClientRect();
+  const [pickupRect, pickupBlockRef] = useClientRect();
+  const [lineRect, lineBlockRef] = useClientRect();
 
   let underscoreStyle = {
-    width: rect1?.width,
+    width: courierRect?.width,
     marginLeft: "2rem",
     transform: "translate3d(0, -3px, 0)",
   };
 
   if (isActive === "pickup") {
     underscoreStyle = {
-      width: rect2?.width,
+      width: pickupRect?.width,
       marginLeft: "0",
-      transform: `translate3d(${Number(rect3?.width) / 2}px, -3px, 0)`,
+      transform: `translate3d(${Number(lineRect?.width) / 2}px, -3px, 0)`,
     };
   }
 
@@ -88,15 +88,18 @@ const Delivery = () => {
           className={`${style.courier} ${isActive === "courier" && style.isActive}`}
           onClick={() => setIsActive("courier")}
         >
-          <span ref={ref1}>Kurier</span>
+          <span ref={courierBlockRef}>Kurier</span>
         </div>
         <div
           className={`${style.pickup} ${isActive === "pickup" && style.isActive}`}
           onClick={() => setIsActive("pickup")}
         >
-          <span ref={ref2}>Odbiór własny</span>
+          <span ref={pickupBlockRef}>Odbiór własny</span>
         </div>
-        <div ref={ref3 as unknown as (node: HTMLDivElement) => void} className={style.line}></div>
+        <div
+          ref={lineBlockRef as unknown as (node: HTMLDivElement) => void}
+          className={style.line}
+        ></div>
         <div className={`${style["underscore"]}`} style={underscoreStyle}></div>
       </div>
       {/* delivery block */}
@@ -105,14 +108,14 @@ const Delivery = () => {
         style={isActive === "courier" ? { display: "grid" } : { display: "none" }}
       >
         <div className={style["delivery-adress"]}>
-          <p>Adres dostawy</p>
+          <p>Adres dostawy:</p>
         </div>
         <div className={style["adress"]}>Księdza Józefa Londzina 54, 47-400 Racibórz, Польша</div>
         <div className={style["arrow"]}>
           <IconButton
             onClick={() => {}}
             className={style["arrow-icon"]}
-            icon={<ChevronDown size={25} aria-hidden="true" />}
+            icon={<ChevronDown size={35} aria-hidden="true" />}
           />
         </div>
         <div className={style["delivery-price"]}>
@@ -134,7 +137,7 @@ const Delivery = () => {
         style={isActive === "pickup" ? { display: "grid" } : { display: "none" }}
       >
         <div className={style["pickup-adress"]}>
-          <p>Adres odbioru</p>
+          <p>Adres odbioru:</p>
         </div>
         <div className={style["pickup-combobox"]}>
           <Combobox selected={selected} setSelected={setSelected} places={places} />
@@ -146,10 +149,10 @@ const Delivery = () => {
           </Button>
         </div>
         <div className={style["pickup-discount"]}>
-          <p>10% zniżki na odbiór własny </p>
+          <p>10% zniżki </p>
         </div>
         <div className={style["pickup-discount-amount"]}>
-          <p>{to2Decimal(cart.totalPrice * 0.1)}</p>
+          <p>{to2Decimal(cart.totalPrice * 0.1) + " zł"}</p>
         </div>
       </div>
     </div>

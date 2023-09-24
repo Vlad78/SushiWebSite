@@ -36,7 +36,7 @@ const MyCombobox: React.FC<{
             onChange={(event) => setQuery(event.target.value)}
           />
           <Combobox.Button>
-            <ChevronDown size={25} aria-hidden="true" className="hover:scale-110 transition" />
+            <ChevronDown size={35} aria-hidden="true" className="hover:scale-110 transition" />
           </Combobox.Button>
         </div>
         <Transition

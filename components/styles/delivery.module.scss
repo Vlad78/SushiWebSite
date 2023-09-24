@@ -57,10 +57,10 @@
 
   .delivery-adress {
     grid-column: span 2;
+    font-size: 0.95rem;
   }
 
   .adress {
-    font-size: 1.1rem;
     line-height: 1.2;
     font-weight: 900;
     margin-top: 5px;
@@ -79,23 +79,29 @@
   .delivery-price {
     grid-column: span 1;
     margin-top: 2rem;
+    font-size: 1.05rem;
   }
 
   .price {
     grid-column: 2 / span 1;
     margin-top: 2rem;
+    font-size: 1.05rem;
   }
 
   .remain-money {
     grid-column: span 1;
     font-style: italic;
-    color: rgb(84 84 84);
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+    color: rgb(118 118 118);
   }
 
   .money {
     grid-column: 2 / span 1;
     font-style: italic;
-    color: rgb(84 84 84);
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+    color: rgb(118 118 118);
   }
 }
 
@@ -106,6 +112,7 @@
 
   .pickup-adress {
     grid-column: span 2;
+    font-size: 0.95rem;
   }
 
   .pickup-combobox {
@@ -135,11 +142,13 @@
 
   .pickup-discount {
     grid-column: 1 / span 1;
+    font-size: 1.05rem;
     margin-top: 2rem;
   }
 
   .pickup-discount-amount {
     grid-column: 2 / span 1;
+    font-size: 1.05rem;
     margin-top: 2rem;
   }
 }
