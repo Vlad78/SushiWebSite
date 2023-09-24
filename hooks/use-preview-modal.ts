@@ -1,19 +1,17 @@
-import { create } from 'zustand';
-
-import { Product } from '@/types';
+import { create } from "zustand";
 
 interface PreviewModalStore {
   isOpen: boolean;
-  data?: Product;
-  onOpen: (data: Product) => void;
-  onClose: () => void;
+  data?: React.JSX.Element;
+  onOpen: (data: React.JSX.Element) => void;
+  closeModal: () => void;
 }
 
 const usePreviewModal = create<PreviewModalStore>((set) => ({
   isOpen: false,
   data: undefined,
-  onOpen: (data: Product) => set({ isOpen: true, data }),
-  onClose: () => set({ isOpen: false }),
+  onOpen: (data: React.JSX.Element) => set({ isOpen: true, data }),
+  closeModal: () => set({ isOpen: false }),
 }));
 
 export default usePreviewModal;

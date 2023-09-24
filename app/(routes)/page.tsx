@@ -4,7 +4,6 @@ import getCategories from "@/actions/get-categories";
 import ProductList from "@/components/product-list";
 import Stories from "@/components/stories";
 import Container from "@/components/ui/container";
-import MainNav from "../../components/main-nav";
 import MasonryMain from "../../components/masonry-main";
 
 import style from "./page.module.scss";
@@ -18,11 +17,7 @@ const HomePage = async () => {
 
   return (
     <Container>
-      {/* <div className={`${style["main-container"]}`}> */}
-
       <Stories data={stories} />
-
-      {/* <MainNav data={categories} /> */}
       <div className={`${style["paralax-container"]} ${style["items-field"]} pb-10`}>
         <div className={style.knob}></div>
         <h2>Polecane produkty</h2>
