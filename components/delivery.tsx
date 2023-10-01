@@ -1,53 +1,51 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { ChevronDown } from "lucide-react";
-
-import IconButton from "./ui/icon-button";
-import { useClientRect } from "../lib/utils-hooks";
-import style from "./styles/delivery.module.scss";
-import Combobox from "./ui/combobox";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { CompassIcon } from "lucide-react";
+import { GoogleMap, useLoadScript } from "@react-google-maps/api";
+import { getGeocode } from "use-places-autocomplete";
+import Image from "next/image";
+
+// import IconButton from "./ui/icon-button";
+import Combobox from "./ui/combobox";
 import Button from "./ui/button";
 import useCart from "../hooks/use-cart";
+import { useClientRect } from "../lib/utils-hooks";
 import { to2Decimal } from "../lib/utils";
+import useUserData from "../hooks/use-userData";
 
-const places = [
+import { Address } from "../types";
+import style from "./styles/delivery.module.scss";
+
+const places: Address[] = [
   {
-    id: 1,
-    name: "Księdza Józefa Londzina 54, 47-400 Racibórz, Польша",
-    fullAdress: "adress 1, city, Poland",
-    shortAdress: "adress 1",
-    img: "img url",
-    workingHours: "13:00-21:00",
-  },
-  {
-    id: 2,
-    name: "Sushi place 2",
-    fullAdress: "adress 1, city, Poland",
-    shortAdress: "adress 1",
-    img: "img url",
-    workingHours: "13:00-21:00",
-  },
-  {
-    id: 3,
-    name: "Sushi place 3",
-    fullAdress: "adress 1, city, Poland",
-    shortAdress: "adress 1",
-    img: "img url",
+    // id: 1,
+    lat: 50.09705502403408,
+    lng: 18.210203374501827,
+    type: "pick-up",
+    address: "Księdza Józefa Londzina 54, 47-400 Racibórz, Польша",
+    // fullAdress: "adress 1, city, Poland",
+    // shortAdress: "adress 1",
+    // img: "img url",
     workingHours: "13:00-21:00",
   },
 ];
 
 const Delivery = () => {
+  console.log("delivery component mounted");
+
   const [isMounted, setIsMounted] = useState(false);
+  const {
+    addressesHistoty,
+    current: { delivery, deliveryTab },
+    setDeliveryTab,
+    setCurrentDelivery,
+  } = useUserData();
 
   // cart
-
   const cart = useCart();
 
   // header animation
-  const [isActive, setIsActive] = useState<"courier" | "pickup">("courier");
   const [courierRect, courierBlockRef] = useClientRect();
   const [pickupRect, pickupBlockRef] = useClientRect();
   const [lineRect, lineBlockRef] = useClientRect();
@@ -58,7 +56,7 @@ const Delivery = () => {
     transform: "translate3d(0, -3px, 0)",
   };
 
-  if (isActive === "pickup") {
+  if (deliveryTab === "pick-up") {
     underscoreStyle = {
       width: pickupRect?.width,
       marginLeft: "0",
@@ -66,11 +64,72 @@ const Delivery = () => {
     };
   }
 
+  // combobox delivery
+
+  // const [selectedDelivery, setSelectedDelivery] = useState<Address | null>(
+  //   addressesHistoty.lastDeliveryAddress
+  // );
+
   // combobox take away options
-  const [selected, setSelected] = useState(places[0]); // user preferences data
+  const [selectedPickup, setSelectedPickup] = useState<Address | null>(places[0]); // user preferences data
+
+  // maps logic
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: `${process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY}`,
+    preventGoogleFontsLoading: true,
+    libraries: ["places"],
+  });
+
+  const center = useMemo(() => {
+    if (delivery) return { lat: delivery.lat, lng: delivery.lng };
+    // TODO one of pickup locations
+    return { lat: 50.09705502403408, lng: 18.210203374501827 };
+  }, [delivery]);
+
+  const [map, setMap] = useState<google.maps.Map | null>(null);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const element = mapContainerRef.current;
+
+    const handleEvent = () => {
+      newPositionPickedManually();
+    };
+
+    element?.addEventListener("touchend", handleEvent);
+    element?.addEventListener("mouseup", handleEvent);
+
+    return () => {
+      element?.removeEventListener("touchend", handleEvent);
+      element?.removeEventListener("mouseup", handleEvent);
+    };
+  }, [mapContainerRef, map]);
+
+  const newPositionPickedManually = async () => {
+    const latLng = { lat: map!.getCenter()!.lat(), lng: map!.getCenter()!.lng() };
+    const result = await getGeocode({
+      location: latLng,
+    });
+    console.log("🚀 ~ file: delivery.tsx:106 ~ newPositionPickedManually ~ result:", result);
+    setCurrentDelivery({
+      ...latLng,
+      address: `${result[0].address_components[1].long_name} ${result[0].address_components[0].long_name} , ${result[0].address_components[2].long_name}`,
+      type: "delivery",
+    });
+  };
+
+  // marker animation
+  const stylePinIdle = {
+    transform: "translateY(0px) scale(1)",
+    filter: "drop-shadow(rgba(35, 0, 0, 0.4) 8px 45px 13px)",
+  };
+  const stylePinMove = {
+    transform: "translateY(-10px) scaleY(1.05) scaleX(0.95)",
+    filter: "drop-shadow(rgba(35, 0, 0, 0.35) 8px 52px 16px)",
+  };
+  const [markerAnimation, setMarkerAnimation] = useState(stylePinIdle);
 
   // hydration workaround
-
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -79,20 +138,18 @@ const Delivery = () => {
   }
 
   return (
-    <div
-      className={`${style["delivery-container"]} mt-12 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8`}
-    >
+    <>
       {/* header */}
       <div className={style["delivery-header"]} style={{}}>
         <div
-          className={`${style.courier} ${isActive === "courier" && style.isActive}`}
-          onClick={() => setIsActive("courier")}
+          className={`${style.courier} ${deliveryTab === "delivery" && style.isActive}`}
+          onClick={() => setDeliveryTab("delivery")}
         >
           <span ref={courierBlockRef}>Kurier</span>
         </div>
         <div
-          className={`${style.pickup} ${isActive === "pickup" && style.isActive}`}
-          onClick={() => setIsActive("pickup")}
+          className={`${style.pickup} ${deliveryTab === "pick-up" && style.isActive}`}
+          onClick={() => setDeliveryTab("pick-up")}
         >
           <span ref={pickupBlockRef}>Odbiór własny</span>
         </div>
@@ -105,17 +162,16 @@ const Delivery = () => {
       {/* delivery block */}
       <div
         className={style["delivery-main"]}
-        style={isActive === "courier" ? { display: "grid" } : { display: "none" }}
+        style={deliveryTab === "delivery" ? { display: "grid" } : { display: "none" }}
       >
         <div className={style["delivery-adress"]}>
           <p>Adres dostawy:</p>
         </div>
-        <div className={style["adress"]}>Księdza Józefa Londzina 54, 47-400 Racibórz, Польша</div>
-        <div className={style["arrow"]}>
-          <IconButton
-            onClick={() => {}}
-            className={style["arrow-icon"]}
-            icon={<ChevronDown size={35} aria-hidden="true" />}
+        <div className={style["delivery-combobox"]}>
+          <Combobox
+            selected={delivery}
+            setSelected={setCurrentDelivery}
+            addressesFromLS={addressesHistoty.allDeliveryAddresses}
           />
         </div>
         <div className={style["delivery-price"]}>
@@ -134,13 +190,13 @@ const Delivery = () => {
       {/* pickup block */}
       <div
         className={style["pickup-main"]}
-        style={isActive === "pickup" ? { display: "grid" } : { display: "none" }}
+        style={deliveryTab === "pick-up" ? { display: "grid" } : { display: "none" }}
       >
         <div className={style["pickup-adress"]}>
           <p>Adres odbioru:</p>
         </div>
         <div className={style["pickup-combobox"]}>
-          <Combobox selected={selected} setSelected={setSelected} places={places} />
+          {/* <Combobox selected={selectedPickup} setSelected={setSelectedPickup} places={places} /> */}
         </div>
         <div className={style["pickup-see-on-map"]}>
           <Button onClick={() => {}}>
@@ -155,7 +211,41 @@ const Delivery = () => {
           <p>{to2Decimal(cart.totalPrice * 0.1) + " zł"}</p>
         </div>
       </div>
-    </div>
+      {/* map block */}
+      <div className={style["map-container"]} ref={mapContainerRef}>
+        {!isLoaded ? (
+          // TODO skeleton
+          "Wait..."
+        ) : (
+          <GoogleMap
+            options={{
+              streetViewControl: false,
+              fullscreenControl: false,
+              gestureHandling: "greedy",
+              mapTypeControl: false,
+              clickableIcons: false,
+            }}
+            mapTypeId={google.maps.MapTypeId.ROADMAP}
+            center={center}
+            zoom={17}
+            mapContainerClassName={style.maps}
+            onLoad={(map) => {
+              setMap(map);
+            }}
+            onBoundsChanged={() => {
+              setMarkerAnimation(stylePinMove);
+            }}
+            onIdle={() => {
+              setMarkerAnimation(stylePinIdle);
+            }}
+          >
+            <div className={style.marker} style={markerAnimation}>
+              <Image src={"/location-pin.svg"} alt="pin" width={70} height={70} />
+            </div>
+          </GoogleMap>
+        )}
+      </div>
+    </>
   );
 };
 

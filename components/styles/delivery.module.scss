@@ -1,11 +1,3 @@
-.delivery-container {
-  background-color: rgba(254, 229, 76, 0.5);
-  display: flex;
-  flex-direction: column;
-  border-radius: 2.5rem;
-  margin: 2rem 1rem;
-}
-
 .delivery-header {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -53,31 +45,39 @@
 .delivery-main {
   display: grid;
   grid-template-columns: 4fr 1fr;
-  padding: 1.3rem;
+  padding: 1rem;
+
+  p {
+    text-wrap: nowrap;
+  }
 
   .delivery-adress {
     grid-column: span 2;
     font-size: 0.95rem;
   }
 
-  .adress {
-    line-height: 1.2;
-    font-weight: 900;
-    margin-top: 5px;
+  .delivery-combobox {
     grid-column: span 1;
   }
 
-  .arrow {
-    grid-column: 2 / span 1;
-  }
-  .arrow-icon {
-    background-color: transparent;
-    box-shadow: none;
-    border: none;
-  }
+  // .adress {
+  //   line-height: 1.2;
+  //   font-weight: 900;
+  //   margin-top: 5px;
+  //   grid-column: span 1;
+  // }
+
+  // .arrow {
+  //   grid-column: 2 / span 1;
+  // }
+  // .arrow-icon {
+  //   background-color: transparent;
+  //   box-shadow: none;
+  //   border: none;
+  // }
 
   .delivery-price {
-    grid-column: span 1;
+    grid-column: 1;
     margin-top: 2rem;
     font-size: 1.05rem;
   }
@@ -108,7 +108,11 @@
 .pickup-main {
   display: grid;
   grid-template-columns: 4fr 1fr;
-  padding: 1.3rem;
+  padding: 1rem;
+
+  p {
+    text-wrap: nowrap;
+  }
 
   .pickup-adress {
     grid-column: span 2;
@@ -150,5 +154,38 @@
     grid-column: 2 / span 1;
     font-size: 1.05rem;
     margin-top: 2rem;
+  }
+}
+
+.map-container {
+  position: relative;
+  left: -1.5rem;
+  right: -1.5rem;
+  bottom: -1.5rem;
+  top: 0rem;
+  height: calc(50vh + 3rem);
+  width: calc(100% + 3rem);
+
+  .maps {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    .marker {
+      --marker-size: 70px;
+      width: var(--marker-size);
+      height: var(--marker-size);
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: calc(var(--marker-size) * -1) 0 0 calc(var(--marker-size) * -0.5);
+      transition: 0.15s cubic-bezier(0.09, 0.46, 0.8, 0.89);
+      pointer-events: none;
+
+      // img {
+      //   filter: drop-shadow(0.8px 1px 4px rgba(34, 60, 80, 0.45));
+      // }
+    }
   }
 }

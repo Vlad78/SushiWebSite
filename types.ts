@@ -104,3 +104,12 @@ export interface Category {
 export interface Categories {
   data: Category[];
 }
+
+export interface Address {
+  name?: string;
+  address: string;
+  lat: number;
+  lng: number;
+  type: "pick-up" | "delivery";
+  workingHours?: string;
+}

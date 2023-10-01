@@ -5,6 +5,13 @@
   cursor: pointer;
 }
 
+.delivery-wrap {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem;
+  padding-top: 2rem;
+}
+
 .location-text {
   text-transform: uppercase;
   color: gray;
@@ -43,19 +50,4 @@
     width: 0.6rem;
     margin-right: 3px;
   }
-
-  // &:after {
-  //   content: "";
-  //   position: absolute;
-  //   top: 0;
-  //   right: 0;
-  //   height: 1.3rem;
-  //   width: 2rem;
-  //   background: linear-gradient(
-  //     90deg,
-  //     rgba(0, 0, 0, 0) 0%,
-  //     rgba(255, 255, 255, 100%) 90%,
-  //     rgb(255, 255, 255) 100%
-  //   );
-  // }
 }

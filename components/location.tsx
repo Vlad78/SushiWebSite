@@ -1,19 +1,33 @@
 "use client";
 
 import React from "react";
-import styles from "./styles/location.module.scss";
 import usePreviewModal from "../hooks/use-preview-modal";
 import useUserData from "../hooks/use-userData";
-import Search from "./search";
+import Delivery from "./delivery";
+
+import style from "./styles/location.module.scss";
 
 const Location = () => {
   const modal = usePreviewModal();
   const data = useUserData();
 
   return (
-    <div className={styles["location-container"]} onClick={() => modal.onOpen(<Search />)}>
-      <div className={styles["location-text"]}>Localizacja</div>
-      <div className={styles["location-adress"]}>{data.orderOptions.lastAdress}</div>
+    <div
+      className={style["location-container"]}
+      onClick={() =>
+        modal.onOpen(
+          <div className={style["delivery-wrap"]}>
+            <Delivery />
+          </div>
+        )
+      }
+    >
+      <div className={style["location-text"]}>Localizacja</div>
+      <div className={style["location-adress"]}>
+        {data.addressesHistoty.lastDeliveryAddress
+          ? data.addressesHistoty.lastDeliveryAddress.address
+          : "Wprowadź adres"}
+      </div>
     </div>
   );
 };

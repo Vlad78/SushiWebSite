@@ -19,3 +19,16 @@ export function to2Decimal(number: number | string) {
 export function getRandom1to10() {
   return Math.floor(Math.random() * 10);
 }
+
+export function debounce<Params extends any[]>(
+  func: (...args: Params) => any,
+  timeout: number
+): (...args: Params) => void {
+  let timer: NodeJS.Timeout;
+  return (...args: Params) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func(...args);
+    }, timeout);
+  };
+}
