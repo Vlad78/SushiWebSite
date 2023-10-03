@@ -3,37 +3,17 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { CompassIcon } from "lucide-react";
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
-import { getGeocode } from "use-places-autocomplete";
+import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
 import Image from "next/image";
 
-// import IconButton from "./ui/icon-button";
 import Combobox from "./ui/combobox";
 import Button from "./ui/button";
-import useCart from "../hooks/use-cart";
 import { useClientRect } from "../lib/utils-hooks";
-import { to2Decimal } from "../lib/utils";
 import useUserData from "../hooks/use-userData";
 
-import { Address } from "../types";
 import style from "./styles/delivery.module.scss";
 
-const places: Address[] = [
-  {
-    // id: 1,
-    lat: 50.09705502403408,
-    lng: 18.210203374501827,
-    type: "pick-up",
-    address: "Księdza Józefa Londzina 54, 47-400 Racibórz, Польша",
-    // fullAdress: "adress 1, city, Poland",
-    // shortAdress: "adress 1",
-    // img: "img url",
-    workingHours: "13:00-21:00",
-  },
-];
-
 const Delivery = () => {
-  console.log("delivery component mounted");
-
   const [isMounted, setIsMounted] = useState(false);
   const {
     addressesHistoty,
@@ -42,13 +22,10 @@ const Delivery = () => {
     setCurrentDelivery,
   } = useUserData();
 
-  // cart
-  const cart = useCart();
-
   // header animation
   const [courierRect, courierBlockRef] = useClientRect();
   const [pickupRect, pickupBlockRef] = useClientRect();
-  const [lineRect, lineBlockRef] = useClientRect();
+  // const [lineRect, lineBlockRef] = useClientRect();
 
   let underscoreStyle = {
     width: courierRect?.width,
@@ -60,18 +37,9 @@ const Delivery = () => {
     underscoreStyle = {
       width: pickupRect?.width,
       marginLeft: "0",
-      transform: `translate3d(${Number(lineRect?.width) / 2}px, -3px, 0)`,
+      transform: `translate3d(calc(${Number(pickupRect?.left)}px - 2.5rem), -3px, 0)`,
     };
   }
-
-  // combobox delivery
-
-  // const [selectedDelivery, setSelectedDelivery] = useState<Address | null>(
-  //   addressesHistoty.lastDeliveryAddress
-  // );
-
-  // combobox take away options
-  const [selectedPickup, setSelectedPickup] = useState<Address | null>(places[0]); // user preferences data
 
   // maps logic
   const { isLoaded } = useLoadScript({
@@ -79,6 +47,10 @@ const Delivery = () => {
     preventGoogleFontsLoading: true,
     libraries: ["places"],
   });
+  const [map, setMap] = useState<google.maps.Map | null>(null);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+
+  const { init } = usePlacesAutocomplete({ initOnMount: false });
 
   const center = useMemo(() => {
     if (delivery) return { lat: delivery.lat, lng: delivery.lng };
@@ -86,23 +58,23 @@ const Delivery = () => {
     return { lat: 50.09705502403408, lng: 18.210203374501827 };
   }, [delivery]);
 
-  const [map, setMap] = useState<google.maps.Map | null>(null);
-  const mapContainerRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     const element = mapContainerRef.current;
+    if (map) {
+      init();
 
-    const handleEvent = () => {
-      newPositionPickedManually();
-    };
+      const handleEvent = () => {
+        newPositionPickedManually();
+      };
 
-    element?.addEventListener("touchend", handleEvent);
-    element?.addEventListener("mouseup", handleEvent);
+      element?.addEventListener("touchend", handleEvent);
+      element?.addEventListener("mouseup", handleEvent);
 
-    return () => {
-      element?.removeEventListener("touchend", handleEvent);
-      element?.removeEventListener("mouseup", handleEvent);
-    };
+      return () => {
+        element?.removeEventListener("touchend", handleEvent);
+        element?.removeEventListener("mouseup", handleEvent);
+      };
+    }
   }, [mapContainerRef, map]);
 
   const newPositionPickedManually = async () => {
@@ -110,7 +82,6 @@ const Delivery = () => {
     const result = await getGeocode({
       location: latLng,
     });
-    console.log("🚀 ~ file: delivery.tsx:106 ~ newPositionPickedManually ~ result:", result);
     setCurrentDelivery({
       ...latLng,
       address: `${result[0].address_components[1].long_name} ${result[0].address_components[0].long_name} , ${result[0].address_components[2].long_name}`,
@@ -139,7 +110,7 @@ const Delivery = () => {
 
   return (
     <>
-      {/* header */}
+      {/* start header */}
       <div className={style["delivery-header"]} style={{}}>
         <div
           className={`${style.courier} ${deliveryTab === "delivery" && style.isActive}`}
@@ -154,12 +125,14 @@ const Delivery = () => {
           <span ref={pickupBlockRef}>Odbiór własny</span>
         </div>
         <div
-          ref={lineBlockRef as unknown as (node: HTMLDivElement) => void}
+          // ref={lineBlockRef as unknown as (node: HTMLDivElement) => void}
           className={style.line}
         ></div>
         <div className={`${style["underscore"]}`} style={underscoreStyle}></div>
       </div>
-      {/* delivery block */}
+      {/* end header */}
+
+      {/* start delivery block */}
       <div
         className={style["delivery-main"]}
         style={deliveryTab === "delivery" ? { display: "grid" } : { display: "none" }}
@@ -172,22 +145,13 @@ const Delivery = () => {
             selected={delivery}
             setSelected={setCurrentDelivery}
             addressesFromLS={addressesHistoty.allDeliveryAddresses}
+            map={map}
           />
         </div>
-        <div className={style["delivery-price"]}>
-          <p>Koszt dostawy</p>
-        </div>
-        <div className={style["price"]}>
-          <p>15 zł</p>
-        </div>
-        <div className={style["remain-money"]}>
-          <p>Do darmowej dostawy jeszcze </p>
-        </div>
-        <div className={style["money"]}>
-          <p>10 zł</p>
-        </div>
       </div>
-      {/* pickup block */}
+      {/* end delivery block */}
+
+      {/* start pickup block */}
       <div
         className={style["pickup-main"]}
         style={deliveryTab === "pick-up" ? { display: "grid" } : { display: "none" }}
@@ -196,23 +160,30 @@ const Delivery = () => {
           <p>Adres odbioru:</p>
         </div>
         <div className={style["pickup-combobox"]}>
-          {/* <Combobox selected={selectedPickup} setSelected={setSelectedPickup} places={places} /> */}
+          <Combobox
+            selected={addressesHistoty.lastPickUpPlace}
+            setSelected={setCurrentDelivery}
+            addressesFromLS={[addressesHistoty.lastPickUpPlace]}
+          />
         </div>
         <div className={style["pickup-see-on-map"]}>
-          <Button onClick={() => {}}>
-            <CompassIcon size={20} display="inline" />
-            <span>Wyświetl na mapie</span>
-          </Button>
-        </div>
-        <div className={style["pickup-discount"]}>
-          <p>10% zniżki </p>
-        </div>
-        <div className={style["pickup-discount-amount"]}>
-          <p>{to2Decimal(cart.totalPrice * 0.1) + " zł"}</p>
+          <a
+            href={`https://maps.app.goo.gl/bWF5VwhBj1Mn2Lwd6`}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <Button>
+              <CompassIcon size={20} display="inline" />
+              <span>Wyświetl na mapie</span>
+            </Button>
+          </a>
         </div>
       </div>
+      {/* end pickup block */}
+
       {/* map block */}
       <div className={style["map-container"]} ref={mapContainerRef}>
+        {deliveryTab === "pick-up" ? <div className={style.blank}></div> : ""}
         {!isLoaded ? (
           // TODO skeleton
           "Wait..."

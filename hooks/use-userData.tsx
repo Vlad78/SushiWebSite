@@ -6,6 +6,8 @@ import { Address } from "../types";
 
 type deliveryTypes = "delivery" | "pick-up";
 
+// TODO define default address to show on the map
+
 interface UserData {
   isUserRegistered: boolean;
   isUserLoggedIn: boolean;
@@ -23,7 +25,7 @@ interface UserData {
   setCurrentDelivery: (data: Address) => void;
 }
 
-const addressExample: Address = {
+const defaultAddress: Address = {
   address: "Migawka CAFE, Opawska, Raciborz, Poland",
   lat: 50.0833419,
   lng: 18.2113659,
@@ -39,17 +41,17 @@ const useUserData = create(
           isUserLoggedIn: false,
           current: {
             deliveryTab: "delivery",
-            delivery: addressExample,
+            delivery: defaultAddress,
             previousDelivery: null,
           },
           addressesHistoty: {
-            allDeliveryAddresses: [addressExample],
-            lastDeliveryAddress: addressExample,
+            allDeliveryAddresses: [defaultAddress],
+            lastDeliveryAddress: defaultAddress,
             lastPickUpPlace: {
               lat: 50.09705502403408,
               lng: 18.210203374501827,
               type: "pick-up",
-              address: "Księdza Józefa Londzina 54, 47-400 Racibórz, Польша",
+              address: "Księdza Józefa Londzina 54, Racibórz",
               workingHours: "13:00-22:00",
             },
           },

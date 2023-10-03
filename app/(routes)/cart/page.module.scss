@@ -9,6 +9,50 @@
     border-radius: 2.5rem;
     margin: 2rem 1rem;
     padding: 1.5rem 1rem;
+
+    .delivery-main {
+      display: grid;
+      grid-template-columns: 4fr 1fr;
+      padding: 1rem;
+    }
+
+    .delivery-address-title {
+      grid-column: span 2;
+    }
+
+    .delivery-address {
+      grid-column: span 2;
+      line-height: 1.2;
+      font-weight: 900;
+    }
+
+    .delivery-price {
+      grid-column: 1;
+      margin-top: 2rem;
+      font-size: 1.05rem;
+    }
+
+    .price {
+      grid-column: 2 / span 1;
+      margin-top: 2rem;
+      font-size: 1.05rem;
+    }
+
+    .remain-money {
+      grid-column: span 1;
+      font-style: italic;
+      font-size: 0.9rem;
+      margin-top: 0.3rem;
+      color: rgb(118 118 118);
+    }
+
+    .money {
+      grid-column: 2 / span 1;
+      font-style: italic;
+      font-size: 0.9rem;
+      margin-top: 0.3rem;
+      color: rgb(118 118 118);
+    }
   }
 
   .summery {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { ChevronDown } from "lucide-react";
 import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
@@ -15,8 +15,10 @@ const MyCombobox: React.FC<{
 
   // это массив всех адресов в хранилище. Нужно их добавить дополнительным списком
   addressesFromLS: Address[];
-}> = ({ selected, setSelected, addressesFromLS }) => {
+  map?: google.maps.Map | null;
+}> = ({ selected, setSelected, addressesFromLS, map }) => {
   const {
+    init,
     ready,
     // это текущая фраза в инпуте. Сразу она пустая
     value = "",
@@ -24,6 +26,7 @@ const MyCombobox: React.FC<{
     suggestions: { status, data },
     clearSuggestions,
   } = usePlacesAutocomplete({
+    initOnMount: false,
     debounce: 300,
     requestOptions: {
       // locationBias: "pl",
@@ -31,6 +34,10 @@ const MyCombobox: React.FC<{
       componentRestrictions: { country: ["pl"] },
     },
   });
+
+  useMemo(() => {
+    map && init();
+  }, [map]);
 
   const onChange = async (value: React.SetStateAction<Address | string | null>) => {
     if (typeof value === "string") {
