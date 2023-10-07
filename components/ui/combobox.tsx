@@ -5,21 +5,13 @@ import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocom
 
 import { Address } from "@/types";
 import style from "./styles/combobox.module.scss";
+import useUserData from "../../hooks/use-userData";
 
 const MyCombobox: React.FC<{
-  // сюда приходит последний адрес из хранилища, если он был. Он выбран на карте
-  selected: Address | null;
-
-  // здесь мы устанавливаем новый адрес на карте
-  setSelected: (data: Address) => void;
-
-  // это массив всех адресов в хранилище. Нужно их добавить дополнительным списком
-  addressesFromLS: Address[];
   map?: google.maps.Map | null;
-}> = ({ selected, setSelected, addressesFromLS, map }) => {
+}> = ({ map }) => {
   const {
     init,
-    ready,
     // это текущая фраза в инпуте. Сразу она пустая
     value = "",
     setValue,
@@ -35,8 +27,15 @@ const MyCombobox: React.FC<{
     },
   });
 
+  const {
+    addressesHistoty: { allDeliveryAddresses },
+    pickUpAddresses,
+    current: { delivery, deliveryTab },
+    setCurrentDelivery,
+  } = useUserData();
+
   useMemo(() => {
-    map && init();
+    map && init(); // use-places-autocomplete
   }, [map]);
 
   const onChange = async (value: React.SetStateAction<Address | string | null>) => {
@@ -48,22 +47,34 @@ const MyCombobox: React.FC<{
         // location: {lat: 0, lng: 0}
       });
       const { lat, lng } = await getLatLng(result[0]);
-      setSelected({ address: value, lat, lng, type: "delivery" });
+      setCurrentDelivery({ address: value, lat, lng, type: "delivery" });
     }
     if (typeof value === "object") {
-      value && setSelected(value);
+      value && setCurrentDelivery(value);
     }
   };
 
-  const filtered =
-    value === ""
-      ? addressesFromLS
-      : addressesFromLS.filter((item) => {
-          return item.address.toLowerCase().includes(value.toLowerCase());
-        });
+  let filtered;
+  if (deliveryTab === "delivery") {
+    filtered =
+      value === ""
+        ? allDeliveryAddresses
+        : allDeliveryAddresses?.filter((item) =>
+            item.address.toLowerCase().includes(value.toLowerCase())
+          );
+  }
+
+  if (deliveryTab === "pick-up") {
+    filtered =
+      value === ""
+        ? pickUpAddresses
+        : pickUpAddresses?.filter((item) =>
+            item.address.toLowerCase().includes(value.toLowerCase())
+          );
+  }
 
   return (
-    <Combobox value={selected} onChange={onChange} disabled={!ready}>
+    <Combobox value={deliveryTab === delivery?.type ? delivery : null} onChange={onChange}>
       <div className={style["combobox-container"]}>
         <div className={style["input"]}>
           <Combobox.Input
@@ -102,21 +113,23 @@ const MyCombobox: React.FC<{
                     <span className={`block`}>{e.description}</span>
                   </Combobox.Option>
                 )),
-                ...filtered.map((item) => {
-                  return (
-                    <Combobox.Option
-                      key={item.lat * 10000000}
-                      className={({ active, selected }) =>
-                        `${active ? style.active : "text-gray-900"} ${
-                          selected && `${style.selected}`
-                        }`
-                      }
-                      value={item}
-                    >
-                      <span className={`block`}>{item.address}</span>
-                    </Combobox.Option>
-                  );
-                }),
+                ...(filtered !== undefined
+                  ? filtered.map((item) => {
+                      return (
+                        <Combobox.Option
+                          key={item.lat * 10000000}
+                          className={({ active, selected }) =>
+                            `${active ? style.active : "text-gray-900"} ${
+                              selected && `${style.selected}`
+                            }`
+                          }
+                          value={item}
+                        >
+                          <span className={`block`}>{item.address}</span>
+                        </Combobox.Option>
+                      );
+                    })
+                  : []),
               ]
             )}
           </Combobox.Options>

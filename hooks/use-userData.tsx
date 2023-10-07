@@ -13,7 +13,7 @@ interface UserData {
   isUserLoggedIn: boolean;
   current: {
     deliveryTab: deliveryTypes;
-    delivery: Address;
+    delivery: Address | null;
     previousDelivery: Address | null;
   };
   addressesHistoty: {
@@ -21,15 +21,29 @@ interface UserData {
     lastDeliveryAddress: Address | null;
     lastPickUpPlace: Address;
   };
+  pickUpAddresses: Address[];
   setDeliveryTab: (data: deliveryTypes) => void;
   setCurrentDelivery: (data: Address) => void;
 }
 
-const defaultAddress: Address = {
-  address: "Migawka CAFE, Opawska, Raciborz, Poland",
+const defaultAddress1: Address = {
+  address: "Delivery! Migawka CAFE, Opawska, Raciborz, Poland",
   lat: 50.0833419,
   lng: 18.2113659,
   type: "delivery",
+};
+const defaultAddress2: Address = {
+  address: "Delivery! rondo im. Żołnierzy Niezłomnych 3 , Racibórz",
+  lat: 50.0932566734312,
+  lng: 18.2226621208742,
+  type: "delivery",
+};
+const pickUpAddress1: Address = {
+  lat: 50.09705502403408,
+  lng: 18.210203374501827,
+  type: "pick-up",
+  address: "Księdza Józefa Londzina 54, Racibórz",
+  workingHours: "13:00-22:00",
 };
 
 const useUserData = create(
@@ -41,20 +55,15 @@ const useUserData = create(
           isUserLoggedIn: false,
           current: {
             deliveryTab: "delivery",
-            delivery: defaultAddress,
+            delivery: null,
             previousDelivery: null,
           },
           addressesHistoty: {
-            allDeliveryAddresses: [defaultAddress],
-            lastDeliveryAddress: defaultAddress,
-            lastPickUpPlace: {
-              lat: 50.09705502403408,
-              lng: 18.210203374501827,
-              type: "pick-up",
-              address: "Księdza Józefa Londzina 54, Racibórz",
-              workingHours: "13:00-22:00",
-            },
+            allDeliveryAddresses: [defaultAddress1, defaultAddress2],
+            lastDeliveryAddress: defaultAddress1,
+            lastPickUpPlace: pickUpAddress1,
           },
+          pickUpAddresses: [pickUpAddress1],
           setDeliveryTab: (data) => {
             set(
               produce((state) => {
@@ -65,7 +74,7 @@ const useUserData = create(
           setCurrentDelivery: (data) => {
             set(
               produce((state) => {
-                state.current.previouseDelivery = get().current.delivery;
+                state.current.previousDelivery = get().current.delivery;
                 state.current.delivery = data;
               })
             );

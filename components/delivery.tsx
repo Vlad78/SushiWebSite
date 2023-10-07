@@ -16,7 +16,6 @@ import style from "./styles/delivery.module.scss";
 const Delivery = () => {
   const [isMounted, setIsMounted] = useState(false);
   const {
-    addressesHistoty,
     current: { delivery, deliveryTab },
     setDeliveryTab,
     setCurrentDelivery,
@@ -124,61 +123,47 @@ const Delivery = () => {
         >
           <span ref={pickupBlockRef}>Odbiór własny</span>
         </div>
-        <div
-          // ref={lineBlockRef as unknown as (node: HTMLDivElement) => void}
-          className={style.line}
-        ></div>
+        <div className={style.line}></div>
         <div className={`${style["underscore"]}`} style={underscoreStyle}></div>
       </div>
       {/* end header */}
 
       {/* start delivery block */}
-      <div
-        className={style["delivery-main"]}
-        style={deliveryTab === "delivery" ? { display: "grid" } : { display: "none" }}
-      >
-        <div className={style["delivery-adress"]}>
-          <p>Adres dostawy:</p>
+      {deliveryTab === "delivery" && (
+        <div className={style["delivery-main"]}>
+          <div className={style["delivery-adress"]}>
+            <p>Adres dostawy:</p>
+          </div>
+          <div className={style["delivery-combobox"]}>
+            <Combobox map={map} />
+          </div>
         </div>
-        <div className={style["delivery-combobox"]}>
-          <Combobox
-            selected={delivery}
-            setSelected={setCurrentDelivery}
-            addressesFromLS={addressesHistoty.allDeliveryAddresses}
-            map={map}
-          />
-        </div>
-      </div>
+      )}
       {/* end delivery block */}
 
       {/* start pickup block */}
-      <div
-        className={style["pickup-main"]}
-        style={deliveryTab === "pick-up" ? { display: "grid" } : { display: "none" }}
-      >
-        <div className={style["pickup-adress"]}>
-          <p>Adres odbioru:</p>
+      {deliveryTab === "pick-up" && (
+        <div className={style["pickup-main"]}>
+          <div className={style["pickup-adress"]}>
+            <p>Adres odbioru:</p>
+          </div>
+          <div className={style["pickup-combobox"]}>
+            <Combobox map={map} />
+          </div>
+          <div className={style["pickup-see-on-map"]}>
+            <a
+              href={`https://maps.app.goo.gl/bWF5VwhBj1Mn2Lwd6`}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <Button>
+                <CompassIcon size={20} display="inline" />
+                <span>Wyświetl na mapie</span>
+              </Button>
+            </a>
+          </div>
         </div>
-        <div className={style["pickup-combobox"]}>
-          <Combobox
-            selected={addressesHistoty.lastPickUpPlace}
-            setSelected={setCurrentDelivery}
-            addressesFromLS={[addressesHistoty.lastPickUpPlace]}
-          />
-        </div>
-        <div className={style["pickup-see-on-map"]}>
-          <a
-            href={`https://maps.app.goo.gl/bWF5VwhBj1Mn2Lwd6`}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <Button>
-              <CompassIcon size={20} display="inline" />
-              <span>Wyświetl na mapie</span>
-            </Button>
-          </a>
-        </div>
-      </div>
+      )}
       {/* end pickup block */}
 
       {/* map block */}

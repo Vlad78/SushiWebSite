@@ -48,28 +48,38 @@ const CartPage = () => {
         </div>
         <div className={`${style.delivery} sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8`}>
           <div className={style["delivery-main"]}>
-            <div className={style["delivery-address-title"]}>
-              <p>Adres dostawy:</p>
-            </div>
-            <div className={style["delivery-address"]}>{delivery.address}</div>
-            <div className={style["delivery-price"]}>
-              <p>Koszt dostawy</p>
-            </div>
-            <div className={style["price"]}>
-              <p>15 zł</p>
-            </div>
-            <div className={style["remain-money"]}>
-              <p>Do darmowej dostawy jeszcze </p>
-            </div>
-            <div className={style["money"]}>
-              <p>10 zł</p>
-            </div>
-            <div className={style["pickup-discount"]}>
-              <p>10% zniżki </p>
-            </div>
-            <div className={style["pickup-discount-amount"]}>
-              <p>{to2Decimal(cart.totalPrice * 0.1) + " zł"}</p>
-            </div>
+            {(delivery === null || delivery?.type === "delivery") && (
+              <>
+                <div className={style["delivery-address-title"]}>
+                  <p>Adres dostawy:</p>
+                </div>
+                <div className={style["delivery-address"]}>
+                  {delivery ? delivery.address : "Wprowadź adres"}
+                </div>
+                <div className={style["delivery-price"]}>
+                  <p>Koszt dostawy</p>
+                </div>
+                <div className={style["price"]}>
+                  <p>15 zł</p>
+                </div>
+                <div className={style["remain-money"]}>
+                  <p>Do darmowej dostawy jeszcze </p>
+                </div>
+                <div className={style["money"]}>
+                  <p>10 zł</p>
+                </div>
+              </>
+            )}
+            {delivery?.type === "pick-up" && (
+              <>
+                <div className={style["pickup-discount"]}>
+                  <p>10% zniżki </p>
+                </div>
+                <div className={style["pickup-discount-amount"]}>
+                  <p>{to2Decimal(cart.totalPrice * 0.1) + " zł"}</p>
+                </div>
+              </>
+            )}
           </div>
         </div>
 
