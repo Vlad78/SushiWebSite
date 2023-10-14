@@ -9,7 +9,7 @@ type deliveryTypes = "delivery" | "pick-up";
 // TODO define default address to show on the map
 
 interface UserData {
-  isUserRegistered: boolean;
+  isSMSSent: boolean;
   isUserLoggedIn: boolean;
   current: {
     deliveryTab: deliveryTypes;
@@ -24,6 +24,8 @@ interface UserData {
   pickUpAddresses: Address[];
   setDeliveryTab: (data: deliveryTypes) => void;
   setCurrentDelivery: (data: Address) => void;
+  setSMSSent: (data: boolean | undefined) => void;
+  setUserLoggedIn: (data: boolean) => void;
 }
 
 const defaultAddress1: Address = {
@@ -51,7 +53,7 @@ const useUserData = create(
     immer(
       persist<UserData>(
         (set, get) => ({
-          isUserRegistered: false,
+          isSMSSent: false,
           isUserLoggedIn: false,
           current: {
             deliveryTab: "delivery",
@@ -76,6 +78,20 @@ const useUserData = create(
               produce((state) => {
                 state.current.previousDelivery = get().current.delivery;
                 state.current.delivery = data;
+              })
+            );
+          },
+          setSMSSent: (data) => {
+            set(
+              produce((state) => {
+                state.isSMSSent = data;
+              })
+            );
+          },
+          setUserLoggedIn: (data) => {
+            set(
+              produce((state) => {
+                state.isUserLoggedIn = data;
               })
             );
           },

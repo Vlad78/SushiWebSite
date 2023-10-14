@@ -12,42 +12,59 @@
 
     .delivery-main {
       display: grid;
-      grid-template-columns: 4fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
       padding: 1rem;
     }
 
     .delivery-address-title {
-      grid-column: span 2;
+      grid-column: span 5;
     }
 
     .delivery-address {
-      grid-column: span 2;
+      grid-column: span 5;
       line-height: 1.2;
       font-weight: 900;
+      text-decoration: underline;
     }
 
-    .delivery-price {
-      grid-column: 1;
+    .main-text-col1 {
+      grid-column: 1 / span 4;
       margin-top: 2rem;
       font-size: 1.05rem;
     }
 
-    .price {
-      grid-column: 2 / span 1;
+    .main-text-col2 {
+      grid-column: 5 / span 1;
       margin-top: 2rem;
       font-size: 1.05rem;
+      text-wrap: nowrap;
     }
 
-    .remain-money {
-      grid-column: span 1;
+    .small-text-col1 {
+      grid-column: 1 / span 4;
       font-style: italic;
       font-size: 0.9rem;
       margin-top: 0.3rem;
       color: rgb(118 118 118);
     }
 
-    .money {
-      grid-column: 2 / span 1;
+    .small-text-col2 {
+      grid-column: 5 / span 1;
+      font-style: italic;
+      font-size: 0.9rem;
+      margin-top: 0.3rem;
+      color: rgb(118 118 118);
+    }
+
+    .working-hours-col1 {
+      grid-column: 1 / span 3;
+      font-style: italic;
+      font-size: 0.9rem;
+      margin-top: 0.3rem;
+      color: rgb(118 118 118);
+    }
+    .working-hours-col2 {
+      grid-column: 4 / span 2;
       font-style: italic;
       font-size: 0.9rem;
       margin-top: 0.3rem;
@@ -57,4 +74,11 @@
 
   .summery {
   }
+}
+
+.delivery-wrap {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem;
+  padding-top: 2rem;
 }

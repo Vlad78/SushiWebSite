@@ -11,9 +11,9 @@ import Button from "./ui/button";
 import { useClientRect } from "../lib/utils-hooks";
 import useUserData from "../hooks/use-userData";
 
-import style from "./styles/delivery.module.scss";
+import style from "./styles/modal-delivery.module.scss";
 
-const Delivery = () => {
+const DeliveryModal = () => {
   const [isMounted, setIsMounted] = useState(false);
   const {
     current: { delivery, deliveryTab },
@@ -151,6 +151,7 @@ const Delivery = () => {
             <Combobox map={map} />
           </div>
           <div className={style["pickup-see-on-map"]}>
+            {/* TODO remove hardcode */}
             <a
               href={`https://maps.app.goo.gl/bWF5VwhBj1Mn2Lwd6`}
               rel="noopener noreferrer"
@@ -205,4 +206,4 @@ const Delivery = () => {
   );
 };
 
-export default Delivery;
+export default DeliveryModal;

@@ -113,3 +113,15 @@ export interface Address {
   type: "pick-up" | "delivery";
   workingHours?: string;
 }
+
+export interface User {
+  blocked: boolean;
+  confirmed: boolean;
+  createdAt: Date;
+  email: null;
+  id: string;
+  phoneNumber: string;
+  provider: "local";
+  updatedAt: Date;
+  username: string;
+}

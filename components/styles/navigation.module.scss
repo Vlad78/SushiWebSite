@@ -73,4 +73,18 @@
 }
 
 .profile {
+  position: relative;
+
+  span {
+    position: absolute;
+    background: linear-gradient(90deg, rgb(167, 44, 167) 0%, rgb(133, 40, 190) 100%);
+    color: #fff;
+    border-radius: 10px;
+    top: 2px;
+    right: -11px;
+    line-height: 1.4;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+  }
 }

@@ -1,15 +1,24 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import usePreviewModal from "../hooks/use-preview-modal";
 import useUserData from "../hooks/use-userData";
-import Delivery from "./delivery";
+import Delivery from "./modal-delivery";
 
 import style from "./styles/location.module.scss";
 
 const Location = () => {
   const modal = usePreviewModal();
   const data = useUserData();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <div
@@ -24,9 +33,7 @@ const Location = () => {
     >
       <div className={style["location-text"]}>Localizacja</div>
       <div className={style["location-adress"]}>
-        {data.addressesHistoty.lastDeliveryAddress
-          ? data.addressesHistoty.lastDeliveryAddress.address
-          : "Wprowadź adres"}
+        {data.current.delivery ? data.current.delivery.address : "Wprowadź adres"}
       </div>
     </div>
   );

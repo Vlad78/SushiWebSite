@@ -3,11 +3,12 @@ import Image from "next/image";
 import logo from "@/public/Logo_SB.webp";
 import menu from "@/public/menu @100.webp";
 import contacts from "@/public/contacts.webp";
-import profile from "@/public/profile @100.webp";
+
+import Link from "next/link";
+import CartIcon from "./icon-cart";
+import ProfileIcon from "./icon-profile";
 
 import styles from "./styles/navigation.module.scss";
-import Link from "next/link";
-import CartIcon from "./cart-icon";
 
 const Navigation = () => {
   const imgParams = {
@@ -37,8 +38,7 @@ const Navigation = () => {
           <p>kontakty</p>
         </li>
         <li className={styles.profile}>
-          <Image src={profile} alt="profile" {...imgParams}></Image>
-          <p>profil</p>
+          <ProfileIcon imgParams={imgParams} />
         </li>
       </ul>
     </nav>
