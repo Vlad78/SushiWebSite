@@ -1,0 +1,39 @@
+.tooltip {
+  background-color: rgb(254 243 199);
+  padding: 4px 8px;
+  max-width: 15rem;
+  border-radius: 8px;
+  z-index: 2;
+  filter: drop-shadow(rgba(0, 0, 0, 0.15) 0px 4px 15px);
+}
+
+.tooltip[data-popper-placement^="top"] > .arrow {
+  bottom: -7px;
+}
+
+.tooltip[data-popper-placement^="bottom"] > .arrow {
+  top: -7px;
+}
+
+.tooltip[data-popper-placement^="left"] > .arrow {
+  right: -7px;
+}
+
+.tooltip[data-popper-placement^="right"] > .arrow {
+  left: -7px;
+}
+
+.arrow,
+.arrow::before {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: inherit;
+  visibility: hidden;
+}
+
+.arrow::before {
+  visibility: visible;
+  content: "";
+  transform: rotate(45deg);
+}

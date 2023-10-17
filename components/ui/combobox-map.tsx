@@ -4,10 +4,10 @@ import { ChevronDown } from "lucide-react";
 import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
 
 import { Address } from "@/types";
-import style from "./styles/combobox.module.scss";
+import style from "./styles/combobox-map.module.scss";
 import useUserData from "../../hooks/use-userData";
 
-const MyCombobox: React.FC<{
+const MapCombobox: React.FC<{
   map?: google.maps.Map | null;
 }> = ({ map }) => {
   const {
@@ -139,4 +139,4 @@ const MyCombobox: React.FC<{
   );
 };
 
-export default MyCombobox;
+export default MapCombobox;

@@ -1,0 +1,66 @@
+.listbox-container {
+  position: relative;
+  margin-top: 0.25rem;
+
+  button {
+    text-align: left;
+    background-color: #fff;
+    display: block;
+    appearance: none;
+    padding: 0.6rem 1rem;
+    height: 3rem;
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid rgb(226, 226, 233);
+    resize: none;
+    font-weight: 500;
+    font-size: 1.1rem;
+    transition-property: background-color, border-color;
+    transition-duration: 100ms;
+    transition-timing-function: ease-out;
+    transition: background-color 0.1s ease 0s, border-color 0.1s ease 0s;
+
+    &:focus,
+    :focus-visible {
+      border-color: rgb(0, 0, 0);
+    }
+  }
+
+  ul {
+    position: absolute;
+    line-height: 1.2;
+    margin-top: 0.25rem;
+    width: 100%;
+    max-height: 15rem;
+    background-color: rgba(255, 255, 255, 0.8196078431);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    overflow: auto;
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    z-index: 2;
+
+    li {
+      position: relative;
+      cursor: pointer;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+      padding: 0.5rem 1rem 0.5rem 2.5rem;
+    }
+  }
+}
+
+.save-button {
+  color: rgba(217, 119, 6, 0.9);
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border-radius: 12px;
+  margin: 0.7rem 0.5rem 0;
+
+  &:disabled {
+    color: rgb(171, 173, 186);
+  }
+}

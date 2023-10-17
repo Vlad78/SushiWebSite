@@ -35,7 +35,7 @@ const CartPage = () => {
     <Container>
       {/* <div className="bg-white"> */}
       <div className={`${style.container} sm:px-6 lg:px-8`}>
-        <h1 className="text-3xl font-bold pl-4">Kosz</h1>
+        <h1>Kosz</h1>
 
         {/* Items start */}
         <div className="mt-8 lg:grid lg:grid-cols-12 lg:items-start gap-x-12">

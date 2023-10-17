@@ -12,6 +12,13 @@ body,
   margin: 0;
 }
 
+h1 {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+  padding-left: 1rem;
+}
+
 h2 {
   font-size: 1.6rem;
   font-weight: 600;
@@ -21,6 +28,10 @@ h2 {
 
 input {
   outline: none;
+}
+
+svg {
+  display: inherit;
 }
 
 :focus,
@@ -37,7 +48,8 @@ input {
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000); */
 }
 
-:focus-visible {
+button :focus-visible {
+  /* outline: 1px black solid; */
   /* --tw-ring-offset-color: #90eee05c;
   --tw-ring-offset-width: 2px;
   --tw-ring-opacity: 0.55;

@@ -5,6 +5,7 @@ import { User } from "@/types";
 type ContextType = {
   user: User | null;
   loading: boolean;
+  forceUpdate?: (e: User) => void;
 };
 
 const UserContext = createContext<ContextType>({
@@ -12,7 +13,7 @@ const UserContext = createContext<ContextType>({
   loading: false,
 });
 
-let userState: User;
+let userState: User | null;
 
 export const UserProvider = ({
   value,
@@ -38,10 +39,22 @@ export const useFetchUser = () => {
   const [data, setUser] = useState<ContextType>({
     user: userState || null,
     loading: userState === undefined,
+    forceUpdate: (e: User) => {
+      userState = e;
+      setUser((prev) => {
+        return { ...prev, ...e };
+      });
+    },
+    // forceUpdate: () => {
+    //   console.log("🚀 ~ file: authContext.tsx:45 ~ useFetchUser ~ userState:", userState);
+    //   userState = null;
+    //   setBell((pr) => pr + 1);
+    //   console.log("🚀 ~ file: authContext.tsx:53 ~ useFetchUser ~ bell:", bell);
+    // },
   });
 
   useEffect(() => {
-    if (userState !== undefined) {
+    if (userState) {
       return;
     }
 
@@ -50,7 +63,9 @@ export const useFetchUser = () => {
       const user = await getUserFromLocalCookie();
 
       if (isMounted) {
-        setUser({ user, loading: false });
+        setUser((prev) => {
+          return { ...prev, user, loading: false };
+        });
       }
     };
     resolveUser();
@@ -58,7 +73,7 @@ export const useFetchUser = () => {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [userState]);
 
   return data;
 };

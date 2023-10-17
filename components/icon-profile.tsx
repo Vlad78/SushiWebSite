@@ -7,7 +7,7 @@ import cartIcon from "@/public/profile @100.webp";
 import usePreviewModal from "../hooks/use-preview-modal";
 import AuthModal from "./modal-auth";
 import { useRouter } from "next/navigation";
-import { useFetchUser, useUser } from "../lib/authContext";
+import { useUser } from "../lib/authContext";
 
 type ImgParams = {
   imgParams: {

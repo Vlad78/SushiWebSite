@@ -1,0 +1,46 @@
+.input-container {
+  position: relative;
+
+  input {
+    text-align: left;
+    display: block;
+    appearance: none;
+    padding: 0.6rem 1rem;
+    height: 3rem;
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid rgb(226, 226, 233);
+    resize: none;
+    font-weight: 500;
+    font-size: 1.1rem;
+    transition-property: background-color, border-color;
+    transition-duration: 100ms;
+    transition-timing-function: ease-out;
+    transition: background-color 0.1s ease 0s, border-color 0.1s ease 0s;
+
+    &:focus,
+    :focus-visible {
+      border-color: rgb(0, 0, 0);
+    }
+  }
+
+  button {
+    color: rgba(217, 119, 6, 0.9);
+    position: absolute;
+    right: 0.5rem;
+    top: 0.3rem;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    background-color: transparent;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    border-radius: 12px;
+    overflow: hidden;
+    z-index: 1;
+
+    &:disabled {
+      color: rgb(171, 173, 186);
+    }
+  }
+}

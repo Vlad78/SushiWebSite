@@ -118,10 +118,17 @@ export interface User {
   blocked: boolean;
   confirmed: boolean;
   createdAt: Date;
-  email: null;
+  email: string | null;
   id: string;
   phoneNumber: string;
   provider: "local";
-  updatedAt: Date;
-  username: string;
+  updatedAt: Date | null;
+  username: string | null;
+  birthDay?: {
+    day: number;
+    month: number;
+  } | null;
+  BDDay: number;
+  BDMonth: number;
+  isSubscribedForMail: boolean;
 }

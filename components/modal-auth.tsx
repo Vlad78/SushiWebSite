@@ -12,24 +12,23 @@ import { User } from "@/types";
 import { setToken } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import usePreviewModal from "@/hooks/use-preview-modal";
-import { useFetchUser } from "../lib/authContext";
 
 const URL = `${process.env.NEXT_PUBLIC_API_URL}/auth/local`;
 
 const AuthModal = () => {
   const modal = usePreviewModal();
   const router = useRouter();
-  const { loading, user } = useFetchUser();
   const [phoneNumber, setPhoneNumber] = useState<Value | undefined>("+48");
   const [code, setCode] = useState("");
-  const { isSMSSent, setSMSSent, isUserLoggedIn, setUserLoggedIn } = useUserData();
-  const phoneInput = useRef<HTMLInputElement>(null);
+  const { isSMSSent, setSMSSent } = useUserData();
+  const inputField = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    phoneInput?.current?.focus();
-  }, [phoneInput.current?.type, isSMSSent, code]);
+    inputField?.current?.focus();
+  }, [inputField.current?.type, isSMSSent, code]);
 
   //TODO check validity of number
+  // TODO refactor code
 
   const onSubmitNumber = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -65,7 +64,6 @@ const AuthModal = () => {
       if (status === 200) {
         toast.success("pomyślnie");
         setToken({ jwt, id: user.id });
-        // setUserLoggedIn(true);
         setSMSSent(false);
         modal.closeModal();
         router.push("/profile");
@@ -82,7 +80,7 @@ const AuthModal = () => {
       {!isSMSSent && (
         <>
           <label>Wprowadź numer</label>
-          <PhoneInput value={phoneNumber} onChange={setPhoneNumber} ref={phoneInput} />
+          <PhoneInput value={phoneNumber} onChange={setPhoneNumber} ref={inputField} />
           <Button onClick={onSubmitNumber}>
             <span>Wysyłanie SMS z kodem</span>
           </Button>
@@ -96,7 +94,7 @@ const AuthModal = () => {
             name="code"
             id="code"
             onChange={(e) => setCode(e.target.value)}
-            ref={phoneInput}
+            ref={inputField}
           />
           <div className="flex w-full justify-evenly">
             <Button onClick={() => setSMSSent(false)} className="border-red-700 text-red-600">

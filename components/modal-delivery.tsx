@@ -6,7 +6,7 @@ import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
 import Image from "next/image";
 
-import Combobox from "./ui/combobox";
+import Combobox from "./ui/combobox-map";
 import Button from "./ui/button";
 import { useClientRect } from "../lib/utils-hooks";
 import useUserData from "../hooks/use-userData";

@@ -1,6 +1,4 @@
-import axios from "axios";
 import Cookies from "js-cookie";
-import { User } from "../types";
 
 export const setToken = ({ jwt, id }: { jwt: string; id: string }) => {
   if (typeof window === "undefined") {
@@ -20,6 +18,7 @@ export const unsetToken = () => {
 
 export async function getUserFromLocalCookie() {
   const jwt = getTokenFromLocalCookie();
+  console.log("🚀 ~ file: auth.ts:23 ~ getUserFromLocalCookie ~ jwt:", jwt);
 
   if (jwt) {
     try {

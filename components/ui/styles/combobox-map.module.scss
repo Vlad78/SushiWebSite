@@ -12,7 +12,6 @@
       padding: 0.5rem 0.5rem 0.5rem 0;
       border-style: none;
       user-select: all;
-
       line-height: 1.2;
       font-weight: 900;
       border-bottom: 2px solid;
@@ -42,7 +41,7 @@
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     overflow: auto;
-    border-radius: 16px;
+    border-radius: 12px;
     box-shadow: rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 
     li {
@@ -55,11 +54,14 @@
     }
 
     .active {
-      background-color: rgba(13, 148, 137, 0.055);
+      // background-color: rgba(13, 148, 137, 0.055);
+      background-color: rgba(254, 243, 199, 0.9);
+      color: rgba(120, 53, 15, 0.9);
     }
 
     .selected {
-      background-color: rgba(13, 148, 136, 90%);
+      // background-color: rgba(13, 148, 136, 90%);
+      background-color: rgba(217, 119, 6, 0.9);
       font-weight: 700;
       color: rgb(255 255 255);
     }

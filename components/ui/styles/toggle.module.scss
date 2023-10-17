@@ -1,0 +1,20 @@
+.toggle-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  border-color: transparent;
+  border-radius: 9999px;
+  border-width: 2px;
+  flex-shrink: 0;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+
+  .hook {
+    pointer-events: none;
+    display: inline-block;
+    border-radius: 9999px;
+    background-color: rgb(255 255 255);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
+  }
+}
