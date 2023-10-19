@@ -9,7 +9,7 @@ type Input = Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> & {
   onChange: (e: string) => void;
 };
 
-const Input: React.FC<Input> = ({ onChange, onSave, value, id, maxLength }) => {
+const Input: React.FC<Input> = ({ onChange, onSave, value, id, maxLength, disabled }) => {
   const [isVirgin, setIsVirgin] = useState(true);
   const [state, setState] = useState(value);
 
@@ -36,7 +36,14 @@ const Input: React.FC<Input> = ({ onChange, onSave, value, id, maxLength }) => {
 
   return (
     <div className={style["input-container"]}>
-      <input type="text" id={id} value={state} onChange={handleChange} maxLength={maxLength} />
+      <input
+        type="text"
+        id={id}
+        value={state}
+        onChange={handleChange}
+        maxLength={maxLength}
+        disabled={disabled}
+      />
       {onSave && (
         <button onClick={handleSave} disabled={isVirgin}>
           Zachować

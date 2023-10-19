@@ -12,12 +12,15 @@ import { User } from "@/types";
 import { setToken } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import usePreviewModal from "@/hooks/use-preview-modal";
+import { PrefetchKind } from "next/dist/client/components/router-reducer/router-reducer-types";
+import { useUser } from "../lib/authContext";
 
 const URL = `${process.env.NEXT_PUBLIC_API_URL}/auth/local`;
 
 const AuthModal = () => {
   const modal = usePreviewModal();
   const router = useRouter();
+  const { forceUpdate } = useUser();
   const [phoneNumber, setPhoneNumber] = useState<Value | undefined>("+48");
   const [code, setCode] = useState("");
   const { isSMSSent, setSMSSent } = useUserData();
@@ -42,6 +45,7 @@ const AuthModal = () => {
         ? toast.success(`SMS wysłany do ${phoneNumber}`, { duration: 8000 })
         : toast.error("Nieznany błąd");
       setSMSSent(true);
+      router.prefetch("/profile", { kind: PrefetchKind.AUTO });
     } catch (error: any) {
       toast.error(error?.response?.data?.error?.message, { duration: 8000 });
     }
@@ -65,10 +69,9 @@ const AuthModal = () => {
         toast.success("pomyślnie");
         setToken({ jwt, id: user.id });
         setSMSSent(false);
+        forceUpdate(user);
         modal.closeModal();
         router.push("/profile");
-        // записываем oath в контекст
-        // переадресация в личный кабинет
       }
     } catch (error: any) {
       toast.error(error?.response?.data?.error?.message, { duration: 8000 });

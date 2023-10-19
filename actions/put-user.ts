@@ -8,7 +8,7 @@ interface Query {
 
 const URL = `${process.env.NEXT_PUBLIC_API_URL}/user/me`;
 
-const putUser = async (query: Query): Promise<User> => {
+const putUser = async (query: Query): Promise<{ user: User }> => {
   try {
     const res = await fetch(URL, {
       method: "PUT",
@@ -18,10 +18,10 @@ const putUser = async (query: Query): Promise<User> => {
       },
       body: JSON.stringify(query.user),
     });
-    return res.json() as Promise<User>;
+    return res.json() as Promise<{ user: User }>;
   } catch (e) {
     console.log(e);
-    return query.user;
+    throw new Error();
   }
 };
 

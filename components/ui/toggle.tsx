@@ -3,13 +3,13 @@ import { Switch } from "@headlessui/react";
 
 import style from "./styles/toggle.module.scss";
 
-type Toggle = Omit<React.HTMLAttributes<HTMLElement>, "onChange"> & {
+type Toggle = Omit<React.ButtonHTMLAttributes<HTMLElement>, "onChange"> & {
   isSubscribedForMail: boolean;
   onChange: (e: boolean) => void;
   onSave: () => void;
 };
 
-const Toggle: React.FC<Toggle> = ({ isSubscribedForMail, onChange, onSave }) => {
+const Toggle: React.FC<Toggle> = ({ isSubscribedForMail, onChange, onSave, disabled }) => {
   const onChangeHandler = (checked: boolean) => {
     onChange(checked);
     onSave();
@@ -22,6 +22,7 @@ const Toggle: React.FC<Toggle> = ({ isSubscribedForMail, onChange, onSave }) => 
       className={`h-[26px] w-[46px] ${isSubscribedForMail ? "bg-amber-600" : "bg-gray-300"} ${
         style["toggle-container"]
       }`}
+      disabled={disabled}
     >
       <span className="sr-only">Use setting</span>
       <span

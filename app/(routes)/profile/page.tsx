@@ -1,25 +1,29 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 import Container from "@/components/ui/container";
-import { useUser } from "@/lib/authContext";
+import { useFetchUser, useUser } from "@/lib/authContext";
 import Input from "@/components/ui/input";
 import BirthdayListbox from "@/components/ui/listbox-birthday";
 import Tooltip from "@/components/ui/tooltip";
 import Toggle from "@/components/ui/toggle";
 import putUser from "@/actions/put-user";
-import { User } from "@/types";
+import { unsetToken } from "@/lib/auth";
 
 import style from "./page.module.scss";
 
-// TODO user loading plug
+// TODO page loading skleton
 // TODO logout
+// TODO loading signal when data is being uploaded
+// TODO show errors to users when saving is
 
 const ProfilePage = () => {
   const { loading, user, forceUpdate } = useUser();
-  console.log("🚀 ~ file: page.tsx:24 ~ ProfilePage ~ user:", user);
+  const route = useRouter();
+
   const [data, setData] = useState({
     username: "",
     phoneNumber: "",
@@ -43,6 +47,10 @@ const ProfilePage = () => {
       email: user?.email || "",
       isSubscribedForMail: user?.isSubscribedForMail || false,
     }));
+    if (!loading && !user) {
+      toast.error("nie znaleziono użytkownika");
+      route.push("/");
+    }
   }, [loading]);
 
   const onChangeHandler = (e: (typeof data)[keyof typeof data], key: keyof typeof data) => {
@@ -54,25 +62,43 @@ const ProfilePage = () => {
   const onSave = async () => {
     setData((data) => {
       if (user) {
-        putUser({
-          user: { ...user, ...data, BDDay: data.birthDay.day, BDMonth: data.birthDay.month },
-        }).then((user) => {
-          // TODO handle errors
-          forceUpdate && forceUpdate(user);
-          toast.success("Zachowane");
-        });
+        let error = "";
+        toast.promise(
+          putUser({
+            user: { ...user, ...data, BDDay: data.birthDay.day, BDMonth: data.birthDay.month },
+          }).then((data) => {
+            // TODO handle errors
+            forceUpdate(data.user);
+            // toast.success("Zachowane");
+          }),
+          {
+            loading: "Saving data...",
+            success: "Data saved!",
+            error: "Failed to update",
+          }
+        );
       }
       return data;
     });
+  };
+
+  const logOutHandler = () => {
+    unsetToken();
+    forceUpdate(null);
+    toast.success("Wylogowany");
+    route.push("/");
   };
 
   return (
     <Container>
       <div className={style["profile-container"]}>
         <h1>Profil</h1>
-        <div className={style["log-out"]}>Wylogowanie</div>
+        <div className={style["log-out"]}>
+          <button onClick={logOutHandler} disabled={loading}>
+            Wylogowanie
+          </button>
+        </div>
 
-        {loading && <div>Loading...</div>}
         <div className={style["profile-content"]}>
           {/* Name */}
           <div className={style["profile-content__row"]}>
@@ -84,6 +110,7 @@ const ProfilePage = () => {
                 id="name-input"
                 onSave={onSave}
                 maxLength={25}
+                disabled={loading}
               />
             </label>
           </div>
@@ -97,6 +124,7 @@ const ProfilePage = () => {
                 id="phone-input"
                 onSave={onSave}
                 maxLength={16}
+                disabled={loading}
               />
             </label>
           </div>
@@ -129,12 +157,14 @@ const ProfilePage = () => {
                 id="email-input"
                 onSave={onSave}
                 maxLength={25}
+                disabled={loading}
               />
               <div className="flex flex-row mt-4 leading-relaxed">
                 <Toggle
                   onChange={(e) => onChangeHandler(e, "isSubscribedForMail")}
                   isSubscribedForMail={data.isSubscribedForMail}
                   onSave={onSave}
+                  // disabled={loading}
                 />
                 <div className="ml-4 font-medium">Zapisz się do newslettera</div>
                 <Tooltip

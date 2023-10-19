@@ -5,12 +5,15 @@ import { User } from "@/types";
 type ContextType = {
   user: User | null;
   loading: boolean;
-  forceUpdate?: (e: User) => void;
+  forceUpdate: (e: User | null) => void;
 };
 
 const UserContext = createContext<ContextType>({
   user: null,
   loading: false,
+  forceUpdate: () => {
+    console.log("just check");
+  },
 });
 
 let userState: User | null;
@@ -39,18 +42,12 @@ export const useFetchUser = () => {
   const [data, setUser] = useState<ContextType>({
     user: userState || null,
     loading: userState === undefined,
-    forceUpdate: (e: User) => {
+    forceUpdate: (e: User | null) => {
       userState = e;
       setUser((prev) => {
-        return { ...prev, ...e };
+        return { ...prev, user: e };
       });
     },
-    // forceUpdate: () => {
-    //   console.log("🚀 ~ file: authContext.tsx:45 ~ useFetchUser ~ userState:", userState);
-    //   userState = null;
-    //   setBell((pr) => pr + 1);
-    //   console.log("🚀 ~ file: authContext.tsx:53 ~ useFetchUser ~ bell:", bell);
-    // },
   });
 
   useEffect(() => {
